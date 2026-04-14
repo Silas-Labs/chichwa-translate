@@ -5,5 +5,5 @@ from .services import translator
 
 
 def translate(request):
-    translator.translate_text("Hello ","en","sw")
-    return render(request,"index.html")
+    translated = translator.translate_text("Hello","en","sw")
+    return render(request,"index.html", {"translated": translated})

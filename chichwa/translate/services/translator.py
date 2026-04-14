@@ -20,4 +20,8 @@ def translate_text(text, source, target):
     for k,v in EN_TO_SW.items():
         SW_TO_EN[f"{v}"]=k
 
-  
+    if source.lower() == "en" and target.lower()== "sw":
+        return EN_TO_SW[text.lower()]
+    
+    if source.lower() == "sw" and target.lower()== "en":
+        return SW_TO_EN[text.lower()]
