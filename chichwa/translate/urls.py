@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('hello/', views.translate), 
+    path('v1/translate-text', views.translate), 
 ]
