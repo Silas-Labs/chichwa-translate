@@ -33,11 +33,10 @@ def translate(request):
         return JsonResponse(
             {"error" : "Invalid JSON"},
             status = 400
-        )
-    
+        )  
 
 def index(request):
-    if request.method == "POST" :
+    if request.method == "GET" :
         body = json.loads(request.body)
         text = body.get("text")
         target_lang = body.get("target_lang")
