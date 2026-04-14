@@ -1,10 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="{% static 'index.css' %}" rel="stylesheet" type="text/css"/>
+  <title>Chichwa Translate</title>
+  </head>
 <body>
-    
+  <div class="container">
+    <h1>Translate</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="selectors">
+        <select name="source_lang">
+          <option value="en">English</option>
+          <option value="sw">Swahili</option>
+        </select>
+        <select name="target_lang">
+          <option value="sw">Swahili</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <textarea name="text" placeholder="Enter text to translate..."></textarea>
+      <button type="submit">Translate</button>
+    </form>
+    {% if translated %}
+      <div class="result">
+        <h3>Translation:</h3>
+        <p>{{ translated }}</p>
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>
