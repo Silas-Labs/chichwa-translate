@@ -2,11 +2,9 @@ from django.shortcuts import render
 from .services import translator
 import json
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
-@csrf_exempt
 def translate(request):
     if request.method != "POST":
         return JsonResponse(
@@ -36,3 +34,15 @@ def translate(request):
             {"error" : "Invalid JSON"},
             status = 400
         )
+    
+
+def index(request):
+    if request.method == "POST" :
+        body = json.loads(request.body)
+        text = body.get("text")
+        target_lang = body.get("target_lang")
+        source_lang = body.get("source_lang")
+        
+        translated = translator.translate_text(text, source_lang, target_lang)
+
+    return render(request,"index.html", {"translated":translated})
