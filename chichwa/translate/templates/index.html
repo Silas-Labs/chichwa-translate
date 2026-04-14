@@ -8,29 +8,56 @@
   <title>Chichwa Translate</title>
   </head>
 <body>
+  {% csrf_token %}
   <div class="container">
     <h1>Translate</h1>
-    <form method="POST">
+    <form method="POST" onsubmit="handleSubmit(event)">
       {% csrf_token %}
       <div class="selectors">
-        <select name="source_lang">
+        <select name="source_lang" id="source">
           <option value="en">English</option>
           <option value="sw">Swahili</option>
         </select>
-        <select name="target_lang">
+        <select name="target_lang" id="target">
           <option value="sw">Swahili</option>
           <option value="en">English</option>
         </select>
       </div>
-      <textarea name="text" placeholder="Enter text to translate..."></textarea>
+      <textarea id="text" name="text" placeholder="Enter text to translate..."></textarea>
       <button type="submit">Translate</button>
     </form>
-    {% if translated %}
       <div class="result">
         <h3>Translation:</h3>
-        <p>{{ translated }}</p>
+        <p id="translated-text">{{ translated }}</p>
       </div>
-    {% endif %}
   </div>
 </body>
+<script>
+  function getCSRF(){
+    return document.querySelector('[name=csrfmiddlewaretoken]').value
+  }
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const text = document.getElementById("text").value;
+    const source_lang = document.getElementById("source").value;
+    const target_lang = document.getElementById("target").value;
+
+    const response = await fetch("/api/v1/translate-text",{
+      method:"POST",
+      headers: {
+        "Content-Type" : "application/json",
+        "X-CSRFToken" : getCSRF()
+      },
+      body: JSON.stringify({
+        text:text,
+        target_lang: target_lang,
+        source_lang:source_lang,
+      })
+    })
+
+    const data = await response.json()
+    document.getElementById("translated-text").innerText = data?.translated;
+
+  }
+</script>
 </html>

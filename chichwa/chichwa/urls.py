@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     #add url to translate app
-    path('api/',include('translate.urls'))
+    path('',include('translate.urls'))
 ]
